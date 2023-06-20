@@ -1,0 +1,51 @@
+1 SELECT c.region_name, COUNT(*) AS country_count
+FROM continents AS c
+JOIN countries AS ct ON c.continent_id = ct.continent_id
+GROUP BY c.region_name
+ORDER BY c.region_name;
+
+
+
+2 SELECT COUNT(*) AS employee_count
+FROM employees AS e
+JOIN cities AS c ON e.city_id = c.city_id
+WHERE c.city_name IN ('Oxford', 'Seattle');
+
+
+3 SELECT d.department_code, d.department_name, MIN(e.hire_date) AS oldest_hire_date, MAX(e.hire_date) AS newest_hire_date
+FROM departments AS d
+JOIN employees AS e ON d.department_id = e.department_id
+GROUP BY d.department_code, d.department_name
+ORDER BY d.department_name;
+
+
+4 SELECT j.job_description, AVG(e.salary) AS average_salary
+FROM jobs AS j
+JOIN employees AS e ON j.job_id = e.job_id
+GROUP BY j.job_description
+HAVING AVG(e.salary) > 5000
+ORDER BY AVG(e.salary);
+
+5 SELECT e.employee_code, CONCAT(e.first_name, ' ', e.last_name) AS employee_name
+FROM employees AS e
+JOIN job_history AS jh ON e.employee_id = jh.employee_id
+GROUP BY e.employee_code, e.first_name, e.last_name
+HAVING COUNT(DISTINCT jh.job_id) = 2;
+
+6 SELECT m.manager_code, CONCAT(m.first_name, ' ', m.last_name) AS manager_name, COUNT(*) AS employee_count
+FROM employees AS m
+JOIN employees AS e ON m.employee_id = e.manager_id
+GROUP BY m.manager_code, m.first_name, m.last_name
+HAVING COUNT(*) >= 2
+ORDER BY COUNT(*) DESC;
+
+7 SELECT j.job_code, j.job_name, SUM(e.salary * e.commission_pct) AS total_commission, AVG(e.salary * e.commission_pct) AS average_commission
+FROM jobs AS j
+JOIN employees AS e ON j.job_id = e.job_id
+WHERE e.commission_pct IS NOT NULL
+GROUP BY j.job_code, j.job_name
+ORDER BY j.job_name;
+
+
+8 SELECT e.employee_id, CONCAT(e.first_name, ' ', e.last_name
+
